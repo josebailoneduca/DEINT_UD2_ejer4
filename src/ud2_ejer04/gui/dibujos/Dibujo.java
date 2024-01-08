@@ -7,26 +7,42 @@ Lista de paquetes:
 package ud2_ejer04.gui.dibujos;
 
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
 
 /**
+ * Clase base para los dibujos. Contiene coordenadas y fase. La fase es el valor
+ * de avance de la animación. Siendo 0 inicio de animacion 1 fin de animacion aunque
+ * puede ser modificado por el propio dibujo segun su necesidad
  *
  * @author Jose Javier Bailon Ortiz
  */
 public abstract class Dibujo {
 
+    //coordeadas
     protected int x;
     protected int y;
+    
+    //fase de avance de la animacion
     protected double fase;
 
-    public Dibujo(int x, int y) {
+    protected Dibujo(int x, int y) {
         this.x = x;
         this.y = y;
         this.fase = 0;
     }
 
+    /**
+     * Debe ser implementado por las clases que hereden implementando la manera en 
+     * que se genera el dibujo usando el g2d
+     * 
+     * @param g2d  Graphics2D a usar para dibujar
+     */
     abstract public void dibujar(Graphics2D g2d);
 
+    /**
+     * Define la fase de animacion actual
+     * 
+     * @param fase La fase
+     */
     public void setFase(double fase) {
         this.fase = fase;
     }

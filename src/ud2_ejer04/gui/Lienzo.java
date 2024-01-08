@@ -9,50 +9,64 @@ package ud2_ejer04.gui;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
-import ud2_ejer04.gui.dibujos.Dibujo;
 import ud2_ejer04.gui.dibujos.Fondo;
 import ud2_ejer04.gui.dibujos.Persona;
 
 /**
- *
+ * Dibuja el fondo y la persona pasandoles la fase de la animacion.
+ * Tambien se crea un transformador original que sirve para resetear transformaciones
+ * cuando haga falta durante los dibujados. Se recalcula en cada repintado porque 
+ * cambia dependiendo de la densidad de pixeles de la pantalla.
+ * 
  * @author Jose Javier Bailon Ortiz
+ * @see Fondo
+ * @see Persona
  */
 public class Lienzo extends javax.swing.JPanel {
 
+    /**
+     * Transformacion para resetear. Se recalcula a cada repintado porque cambia
+     * dependiendo de la densidad de pixeles de la pantalla.
+     */
     public static AffineTransform resetTransform;
-    private ArrayList<Dibujo> dibujos = new ArrayList<>();
+    
+    /**
+     * referencia al dibujo fondo
+     */
+    private final Fondo fondo = new Fondo(0, 0);
+    
+    /**
+     * referencia al dibujo persona
+     */
+    private final Persona persona = new Persona(-60, 460);
 
     /**
      * Creates new form Lienzo
      */
     public Lienzo() {
         initComponents();
-        crearDibujos();
     }
 
+    /**
+     * Cada vez que se pinta el componente se actualiza la fase de los dibujos
+     * y se pintan.
+     * @param g 
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        resetTransform=g2d.getTransform();
-        for (Dibujo dibujo : dibujos) {
-            dibujo.setFase(Ventana.fase);
-            dibujo.dibujar(g2d);
-            g2d.setTransform(resetTransform);
-        }
-    }
+        //crear el transformador origen
+        resetTransform = g2d.getTransform();
+        
+        //dibujar fondo
+        fondo.setFase(Ventana.fase);
+        fondo.dibujar(g2d);
+        
+        //dibujar persona
+        persona.setFase(Ventana.fase);
+        persona.dibujar(g2d);
 
-    private void crearDibujos() {
-        
-        //camino
-        Dibujo fondo = new Fondo(0,0);
-        dibujos.add(fondo);
-        
-        //persona
-        Dibujo persona = new Persona(-60,460);
-        dibujos.add(persona);
-        
     }
 
     /**

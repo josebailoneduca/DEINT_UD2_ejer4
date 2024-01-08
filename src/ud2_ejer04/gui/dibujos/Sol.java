@@ -8,17 +8,21 @@ package ud2_ejer04.gui.dibujos;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import ud2_ejer04.gui.Lienzo;
 
 /**
- *
+ * Dibuja un sol centrado en la posicion x,y.
+ * Tiene aplicada una escala y rotacion en funcion de la fase
+ * 
  * @author Jose Javier Bailon Ortiz
  */
 public class Sol extends Dibujo {
 
-    private BufferedImage textura;
-
+    /**
+     * Constructor
+     * @param x Centro del sol en X
+     * @param y Centro del sol en Y
+     */
     public Sol(int x, int y) {
         super(x, y);
     }
@@ -26,16 +30,27 @@ public class Sol extends Dibujo {
     @Override
     public void dibujar(Graphics2D g2d) {
 
-        double escala = Math.sin(fase * 20) / 8 + 1;
+        //calcular escala que toca
+        double escala = Math.sin(fase * 20) / 4 + 1;
+        
+        //calcular rotacion que toca
         double rotacion = fase * 5;
+        
+        //trasladar al sitio
         g2d.translate(x, y);
+        
+        //rotar
         g2d.rotate(rotacion);
+        
+        //escalar
         g2d.scale(escala, escala);
-        g2d.scale(escala, escala);
-        g2d.setColor(Colores.sol);
+        
+        //dibujar
+        g2d.setColor(Colores.SOL);
         g2d.fillOval(-35, -35, 70, 70);
         float i = 0;
         g2d.setStroke(new BasicStroke(5));
+        //rayos
         while (i < 2 * Math.PI) {
             g2d.drawLine(0, 0, 70, 70);
             g2d.rotate(0.7);
